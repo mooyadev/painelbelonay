@@ -3414,16 +3414,23 @@ document.addEventListener('input',e=>{const id=e.target.id||'';if(id==='busca'||
 document.addEventListener('change',e=>{const id=e.target.id||'';if(EVF.includes(id))autosave();update()});
 
 // ---------- abertura ----------
-(function(){const sp=$('splash');let visto=false;try{visto=sessionStorage.getItem('belonaAbertura')==='1';sessionStorage.setItem('belonaAbertura','1')}catch(e){}
-  if(visto||reduz()){sp.remove();return}
-  sp.classList.add('play');const sai=()=>{if(!sp.isConnected)return;sp.classList.add('sai');setTimeout(()=>sp.remove(),480)};
-  sp.addEventListener('click',sai);setTimeout(sai,2300)})();
+let abT1,abT2;
+function abertura(){const sp=$('splash');if(reduz()){sp.style.display='none';return}
+  clearTimeout(abT1);clearTimeout(abT2);sp.style.display='flex';sp.classList.remove('play','sai');void sp.offsetWidth;sp.classList.add('play');
+  abT1=setTimeout(fimAbertura,2300)}
+function fimAbertura(){const sp=$('splash');sp.classList.add('sai');clearTimeout(abT2);abT2=setTimeout(()=>{sp.style.display='none';sp.classList.remove('play','sai')},480)}
+$('splash').addEventListener('click',fimAbertura);
+abertura();
+// ao voltar para o app depois de um tempo fora (celular guarda o app aberto em segundo plano)
+let saiuEm=0;
+document.addEventListener('visibilitychange',()=>{if(document.hidden)saiuEm=Date.now();else if(saiuEm&&Date.now()-saiuEm>5*60*1000)abertura()});
+window.addEventListener('pageshow',e=>{if(e.persisted)abertura()});
 
 // ---------- início ----------
 $('logoB').src=LOGO;$('logoC').src=LOGO_CREAM;
 syncEstr();update();
 if(!location.hash)history.replaceState(null,'','#inicio');
-route();
+{let h=(location.hash||'#inicio').slice(1);if(!VIEWS[h]||h==='passo'||h==='evento'){h='inicio';history.replaceState(null,'','#inicio')}show(h)}
 
 </script>
 </body>
