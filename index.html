@@ -110,6 +110,13 @@ details.card[open]::details-content{height:auto}
 .doc .ck{display:inline-block;width:11px;height:11px;border:1.3px solid var(--dk);margin-right:6px;vertical-align:-1px}
 .doc .ck.on{background:var(--dk)}
 .doc .small{font-size:11px;color:var(--br)}
+
+/* ajustes de alinhamento e celular */
+.row2 .f,.row3 .f{justify-content:space-between}
+#cTel::placeholder{font-size:14px}
+summary .n{width:28px;height:28px;min-width:28px;border-radius:50%;background:var(--gd);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;align-self:center}
+details.card>summary{align-items:center}
+@media (max-width:520px){header.top{padding:22px 16px 30px}header.top img{height:38px}header.top .t{font-size:26px;margin:12px 0 8px}header.top .intro{font-size:12.5px;line-height:1.5}}
 </style>
 </head>
 <body>
@@ -118,7 +125,7 @@ details.card[open]::details-content{height:auto}
 
 <details class="card" open><summary><span class="n">1</span>Cliente<span class="chev">▾</span></summary><div class="body">
 <label class="f">Nome completo<input id="cNome" autocomplete="off"></label>
-<div class="row2"><label class="f">Telefone / WhatsApp<input id="cTel" inputmode="tel" placeholder="(65) 00000-0000"></label><label class="f">E-mail<input id="cEmail" inputmode="email"></label></div>
+<div class="row2"><label class="f">Telefone / WhatsApp<input id="cTel" inputmode="tel" placeholder="(65) 9 0000-0000"></label><label class="f">E-mail<input id="cEmail" inputmode="email"></label></div>
 <div class="row2"><label class="f">CPF<input id="cCpf" inputmode="numeric"></label><label class="f">RG<input id="cRg" inputmode="numeric"></label></div>
 <label class="f">Endereço do cliente<input id="cEnd"></label>
 </div></details>
@@ -2586,7 +2593,7 @@ function update(){
   if(c.nAd>0)w.push(`${c.nSel} drinks escolhidos: ${c.nAd} adicional(is) de ${brl(num('vAd'))}.`);
   $('menuWarn').textContent=w.join(' ');
   $('kpis').innerHTML=`<div class="kpi"><b>${c.bart}</b><span>bartender(s)</span></div><div class="kpi"><b>${c.base?brl(c.total):'—'}</b><span>total</span></div><div class="kpi"><b>${c.base?brl(c.sinal):'—'}</b><span>sinal (${fmt(c.sinalPct)}%)</span></div><div class="kpi"><b>${fmt(c.drinksTot)}</b><span>drinks estimados</span></div><div class="kpi" style="grid-column:1/-1"><b>${c.custoIns?brl(c.custoIns):'—'}</b><span>custo estimado dos insumos${c.semPreco&&c.custoIns?` (${c.semPreco} item(ns) sem preço)`:''}</span></div>`;
-  {const el=$('barTot'),novo=c.base?brl(c.total):'Informe o valor por bartender';if(el.textContent!==novo){el.textContent=novo;if(c.base){el.classList.remove('pulso');void el.offsetWidth;el.classList.add('pulso')}}}
+  {const el=$('barTot'),novo=c.base?brl(c.total):'Informe os valores';if(el.textContent!==novo){el.textContent=novo;if(c.base){el.classList.remove('pulso');void el.offsetWidth;el.classList.add('pulso')}}}
   $('barTot').style.fontSize=c.base?'':'13px';
 }
 document.addEventListener('input',e=>{if(BK.includes(e.target.id)||e.target.id==='bLembrar')saveEmp();if(e.target.id.startsWith('p_')||e.target.id==='bLembrar')savePrecos();update()});
